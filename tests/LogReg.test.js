@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('../server');
+const server = require('../app');
 
 //login logout and register tests
 const userRegisterMock = {

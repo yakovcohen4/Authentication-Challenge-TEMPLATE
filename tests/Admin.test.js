@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('../server');
+const server = require('../app');
 
 //Admin tests
 const userAdminMock = {
