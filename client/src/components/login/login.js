@@ -2,17 +2,18 @@ import React, { useState, useContext } from 'react';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Alert } from 'react-bootstrap';
-import { create } from '../Network/Ajax';
-import { Logged, Timer } from './useContextComp';
+import { Alert, Button } from 'react-bootstrap';
+import { create, options } from '../Network/Ajax';
+import { Logged } from './useContextComp';
+
 import './login.css';
 
 function Login() {
 
-    const [error, setError] = useState(<span></span>)
+    const [error, setError] = useState('Error Box:')
+    const [apiOptions, setApiOptions] = useState()
     const { register: logIn, handleSubmit, errors } = useForm();
     const value = useContext(Logged);
-    let timer = useContext(Timer);
 
     const onSubmit = (data) => {
         console.log(data);
@@ -23,7 +24,6 @@ function Login() {
                     Cookies.set('refreshToken', res.refreshToken)
                     Cookies.set('name', res.userName)
                     Cookies.set('isAdmin', res.isAdmin)
-                    timer.setTimer(setInterval(() => timer.getAccessToken(), 29000))
                     value.setIsLogged(true);
                 }
             })
@@ -33,6 +33,15 @@ function Login() {
             })
     };
 
+    const getAllApi = () => {
+        options('/')
+            .then(res => {
+                setApiOptions(res)
+            })
+            .catch(error => {
+                setError(error.message)
+            })
+    }
 
     return (
         <div className="container h-100">
@@ -77,9 +86,25 @@ function Login() {
             </div>
             <Alert key={'idx'} variant='danger' className='errorMessage' >
                 {errors.email && 'Email is required.'}<br />
-                {errors.password && 'Password is required.'}
+                {errors.password && 'Password with digits is required.'}
                 {error}
             </Alert>
+            <div className='logInGetOptions' >
+                <Button variant="info" onClick={getAllApi} >Get all api that open for you</Button>
+            </div>
+            {apiOptions &&
+                [<span className='tableContainer' key={'user.email + user.name'} >
+                    <div className='userEmail' >Description:</div>
+                    <div className='userIsAdmin' >Method:</div>
+                    <div className='userName' >Path:</div>
+                    <div className='userPassword' >Example:</div>
+                </span>].concat(
+                    apiOptions.map(user => <span className='tableContainer' key={user.email + user.name} >
+                        <div className='userEmail' >{user.description}</div>
+                        <div className='userIsAdmin'  >{user.method}</div>
+                        <div className='userName' >{user.path}</div>
+                        <div className='userPassword' >{`${JSON.stringify(user.example)}`}</div>
+                    </span>))}
         </div>
     );
 }

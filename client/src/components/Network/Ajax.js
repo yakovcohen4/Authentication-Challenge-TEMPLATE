@@ -15,3 +15,7 @@ export function update(endPoint, body = {}) {
 export function remove(endPoint) {
     return Network.delete(endPoint);
 }
+export function options(endPoint) {
+    return Network.options(endPoint);
+}
+

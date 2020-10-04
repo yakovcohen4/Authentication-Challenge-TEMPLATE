@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 // import { removeTokents } from '../Services/globalVariables';
 
 function Network(endPoint, { body, ...customConfig } = {}) {
-
     const headers = {
         "Content-Type": "application/json;charset=utf-8'",
         "Authorization": `Berear ${Cookies.get('accessToken')}`
@@ -27,9 +26,6 @@ function Network(endPoint, { body, ...customConfig } = {}) {
         if (response.ok) {
             console.log(`Got response ${response.status}`, data);
             return data
-        } else if (response.status === 403) {
-            // removeTokents()
-            // return window.location.assign('/')
         } else {
             console.error(`${response.status} : '${data.message}'`);
             throw data
@@ -41,5 +37,6 @@ Network.get = (endPoint) => Network(endPoint, { method: "GET" });
 Network.post = (endPoint, body) => Network(endPoint, { method: "POST", ...body });
 Network.put = (endPoint, body) => Network(endPoint, { method: "PUT", ...body });
 Network.delete = (endPoint) => Network(endPoint, { method: "DELETE" });
+Network.options = (endPoint) => Network(endPoint, { method: "OPTIONS" });
 
 export default Network;
