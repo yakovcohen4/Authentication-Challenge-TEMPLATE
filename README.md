@@ -46,7 +46,7 @@ After these steps, you are good to go. **Good Luck!**
 - Access tokens should expire after 10 seconds.
 - Server must have an unknown endpoint handler (status 404 "unknown endpoint").
 - Server must contain the following variables: USERS [...{email, name, password, isAdmin},{}...], INFORMATION [...{name, info},{}...], 
-- Passwords cannot be stored as plain-t ext - only as hash+salt(10!)
+- Passwords cannot be stored as plain-text - only as hash+salt(10!)
 - USERS array on server must have an admin user with the props mentioned bellow: 
 { email: "admin@email.com", name: "admin", password: "**hashed password**", isAdmin: true }. admin's password **must** be `Rc123456!`.
 - Server must work with content/type: application/JSON 
