@@ -93,7 +93,7 @@ After these steps, you are good to go. **Good Luck!**
 - `jwt` - https://www.youtube.com/watch?v=Ud5xKCYQTjM.
 - `bcrypt` - https://www.youtube.com/watch?v=O6cmuiTBZVs.
 - `bcrypt` - https://www.youtube.com/watch?v=rYdhfm4m7yg.
-- `options method` - https://developer.mozilla.org/en-US/docs/Web/HTTP/.Methods/OPTIONS.
+- `options method` - https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS.
 - `express` - https://medium.com/@onejohi/building-a-simple-rest-api-with-nodejs-and-express-da6273ed7ca9.
 - `nodemon` - https://www.youtube.com/watch?v=kV6MJ9W4whM.
 - `morgan` - https://www.youtube.com/watch?v=IdsdQuC13P0.
