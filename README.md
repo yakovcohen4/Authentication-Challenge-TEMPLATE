@@ -9,7 +9,7 @@ In order to pass this challenge successfully you should follow all of the requir
 - Install [Node.js](https://nodejs.org/en/download/) (if you haven't already).
 - Install a code editor of your choice (recommended: [Visual Studio Code](https://code.visualstudio.com/download)).
 - Fork [this Github repository](https://github.com/suvelocity/Authentication-Challenge-TEMPLATE) to your computer.
-- Run `npm install` on your terminal, **first** inside the client folder, **and then** in the main  directory.
+- Run `npm install` on your terminal, **first** inside the client folder **run npm start inside client**(do not turn off the client, the command start destroy by the server install), **and then** in the main  directory.
 
 After these steps, you are good to go. **Good Luck!**
 
