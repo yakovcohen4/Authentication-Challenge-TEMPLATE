@@ -43,11 +43,11 @@ After these steps, you are good to go. **Good Luck!**
     - server responses: status 200, body {accessToken, refreshToken , userName, isAdmin} | status 404 "cannot find user" | status 403 "User or Password incorrect".
 
   - `POST` path: `"/users/tokenValidate"`, description: Access Token Validation, required: 
-    - request template header: {Authorization: "Bearer -access token-"}
+    - request template header: {authorization: "Bearer -access token-"}
     - server responses: status 200, body: {valid: `true`} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
 
-  - `GET` path: `"/api/v1/information"`, description: Access user's information, required: header: {Authorization: "Bearer -access token-"}
-    - request template: header {Authorization: "Bearer -access token-"}
+  - `GET` path: `"/api/v1/information"`, description: Access user's information, required: header: {authorization: "Bearer -access token-"}
+    - request template: header {authorization: "Bearer -access token-"}
     - server responses: status 200, body: {user, info} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
     
   - `POST` path: `"/users/token"`, description: Renew access token, 
@@ -59,11 +59,11 @@ After these steps, you are good to go. **Good Luck!**
     - server responses: status 200 "User Logged Out Successfully" | status 400 "Refresh Token Required" | status 400 "Invalid Refresh Token".
 
   - `GET` path: `/api/v1/users`, description: Get users DB (admin only), 
-    - Request template: header {Authorization: "Bearer -access token-"}
+    - Request template: header {authorization: "Bearer -access token-"}
     - Server Responses: status 200, body: {USERS: [...[{email, name, password, isAdmin}]} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
 
   - `OPTIONS` path: `"/"`, description: returns an array of all APIs and endpoints. (sends only the available options for the currnet logged user premissions)
-    - Request template: `optional` header {Authorization: "Bearer -access token-"}
+    - Request template: `optional` header {authorization: "Bearer -access token-"}
     - Server Response: status 200, header: {Allow: "OPTIONS, GET, POST"},
     body: returns an array of all the server's APIs:
       - client with no token gets only register and login APIs. 
