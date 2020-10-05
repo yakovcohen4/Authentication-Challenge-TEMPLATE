@@ -86,12 +86,11 @@ After these steps, you are good to go. **Good Luck!**
 
 ## Resources
 - HTTP Status Codes - [Rest API Tutorials](https://www.restapitutorial.com/httpstatuscodes.html), [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
-- `jwt` - https://www.npmjs.com/package/jsonwebtoken.
-- `jwt` - https://www.youtube.com/watch?v=7Q17ubqLfaM.
 - `jwt` - https://jwt.io/introduction/.
+- `jwt` - https://www.youtube.com/watch?v=mbsmsi7l3r4&list=PLZlA0Gpn_vH9yI1hwDVzWqu5sAfajcsBQ&index=3.
+- `jwt` - https://www.youtube.com/watch?v=7Q17ubqLfaM.
 - `jwt` - https://www.youtube.com/watch?v=2jqok-WgelI&t=472s.
 - `jwt` - https://www.youtube.com/watch?v=Ud5xKCYQTjM.
-- `bcrypt` - https://www.npmjs.com/package/bcrypt.
 - `bcrypt` - https://www.youtube.com/watch?v=O6cmuiTBZVs.
 - `bcrypt` - https://www.youtube.com/watch?v=rYdhfm4m7yg.
 - `options method` - https://developer.mozilla.org/en-US/docs/Web/HTTP/.Methods/OPTIONS.
