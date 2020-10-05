@@ -16,13 +16,13 @@ In order to pass this challenge successfully you should follow all of the requir
 After these steps, you are good to go. **Good Luck!**
 
 ## Libraries 
-- [`express`](https://www.npmjs.com/package/express) - server framework.
-- [`jsonwebtoken`](https://www.npmjs.com/package/jsonwebtoken) - for user validation.
-- [`bcrypt`](https://www.npmjs.com/package/bcrypt) - for password hashing and comparing.
-- [`morgan`](https://www.npmjs.com/package/morgan) - for easy request/response logging.
-- [`nodemon`](https://www.npmjs.com/package/nodemon) - auto restarts server onSave. 
-- [`jest`](https://www.npmjs.com/package/jest) - tests library.
-- [`supertest`](https://www.npmjs.com/package/supertest) - backend test addition.
+- [`express`](https://www.npmjs.com/package/express) - Server framework.
+- [`jsonwebtoken`](https://www.npmjs.com/package/jsonwebtoken) - For user validation.
+- [`bcrypt`](https://www.npmjs.com/package/bcrypt) - For password hashing and comparing.
+- [`morgan`](https://www.npmjs.com/package/morgan) - For easy request/response logging.
+- [`nodemon`](https://www.npmjs.com/package/nodemon) - Auto restarts server onSave. 
+- [`jest`](https://www.npmjs.com/package/jest) - Tests library.
+- [`supertest`](https://www.npmjs.com/package/supertest) - Backend test addition.
 
 ## Resources
 - HTTP Status Codes - [Rest API Tutorials](https://www.restapitutorial.com/httpstatuscodes.html), [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
@@ -46,7 +46,7 @@ After these steps, you are good to go. **Good Luck!**
 - Access tokens should expire after 10 seconds.
 - Server must have an unknown endpoint handler (status 404 "unknown endpoint").
 - Server must contain the following variables: USERS [...{email, name, password, isAdmin},{}...], INFORMATION [...{name, info},{}...], 
-- Passwords cannot be stored as plain-text - only as hash+salt(10!)
+- Passwords cannot be stored as plain-t ext - only as hash+salt(10!)
 - USERS array on server must have an admin user with the props mentioned bellow: 
 { email: "admin@email.com", name: "admin", password: "**hashed password**", isAdmin: true }. admin's password **must** be `Rc123456!`.
 - Server must work with content/type: application/JSON 
@@ -59,11 +59,11 @@ After these steps, you are good to go. **Good Luck!**
     - request template: body: {email ,password}
     - server responses: status 200, body {accessToken, refreshToken , userName, isAdmin} | status 404 "cannot find user" | status 403 "User or Password incorrect".
 
-  - `POST` path: `"/users/tokenValidate"`, description: Access Token Validation, required: 
+  - `POST` path: `"/users/tokenValidate"`, description: Access Token Validation, Required: 
     - request template header: {authorization: "Bearer -access token-"}
     - server responses: status 200, body: {valid: `true`} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
 
-  - `GET` path: `"/api/v1/information"`, description: Access user's information, required: header: {authorization: "Bearer -access token-"}
+  - `GET` path: `"/api/v1/information"`, description: Access user's information, Required: header: {authorization: "Bearer -access token-"}
     - request template: header {authorization: "Bearer -access token-"}
     - server responses: status 200, body: {name, info} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
     
@@ -90,13 +90,13 @@ After these steps, you are good to go. **Good Luck!**
         - options array:
         
         [
-    { method: "post", path: "/users/register", description: "Register, required: email, user, password", example: { body: { email: "user@email.com", name: "user", password: "password" } } },
-    { method: "post", path: "/users/login", description: "Login, required: valid email and password", example: { body: { email: "user@email.com", password: "password" } } },
-    { method: "post", path: "/users/token", description: "Renew access token, required: valid refresh token", example: { headers: { token: "\*Refresh Token\*" } } },
-    { method: "post", path: "/users/tokenValidate", description: "Access Token Validation, required: valid access token", example: { headers: { authorization: "Bearer \*Access Token\*" } } },
-    { method: "get", path: "/api/v1/information", description: "Access user's information, required: valid access token", example: { headers: { authorization: "Bearer \*Access Token\*" } } },
-    { method: "post", path: "/users/logout", description: "Logout, required: access token", example: { body: { token: "\*Refresh Token\*" } } },
-    { method: "get", path: "api/v1/users", description: "Get users DB, required: Valid access token of admin user", example: { headers: { authorization: "Bearer \*Access Token\*" } } }
+    { method: "post", path: "/users/register", description: "Register, Required: email, user, password", example: { body: { email: "user@email.com", name: "user", password: "password" } } },
+    { method: "post", path: "/users/login", description: "Login, Required: valid email and password", example: { body: { email: "user@email.com", password: "password" } } },
+    { method: "post", path: "/users/token", description: "Renew access token, Required: valid refresh token", example: { headers: { token: "\*Refresh Token\*" } } },
+    { method: "post", path: "/users/tokenValidate", description: "Access Token Validation, Required: valid access token", example: { headers: { authorization: "Bearer \*Access Token\*" } } },
+    { method: "get", path: "/api/v1/information", description: "Access user's information, Required: valid access token", example: { headers: { authorization: "Bearer \*Access Token\*" } } },
+    { method: "post", path: "/users/logout", description: "Logout, Required: access token", example: { body: { token: "\*Refresh Token\*" } } },
+    { method: "get", path: "api/v1/users", description: "Get users DB, Required: Valid access token of admin user", example: { headers: { authorization: "Bearer \*Access Token\*" } } }
   ]
 ## How to run tests
 - Run all tests (tokenExpire.test takes 10s) - CLI command - npm run test.
