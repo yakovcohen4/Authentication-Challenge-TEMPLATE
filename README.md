@@ -11,7 +11,7 @@ In order to pass this challenge successfully you should follow all of the requir
 - Install a code editor of your choice (recommended: [Visual Studio Code](https://code.visualstudio.com/download)).
 - Fork [this Github repository](https://github.com/suvelocity/Authentication-Challenge-TEMPLATE) to your computer.
 - Run `npm install` on your terminal, **both** in **the main** directory and **client** folder.
-- please notice that most of the tests can only be resolved whene the **/users/register API** will work properly. 
+- Please notice that most of the tests can only be resolved whene the **/users/register** and **/users/login** APIs will work properly. 
 
 After these steps, you are good to go. **Good Luck!**
 
