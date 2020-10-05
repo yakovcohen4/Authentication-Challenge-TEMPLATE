@@ -71,6 +71,7 @@ After these steps, you are good to go. **Good Luck!**
       - authenticated user can access login, register, refresh token, information and logout APIs.
       - admin user can see all the server's APIs (including the get **api/v1/users**)
         - options array:
+        
         [
     { method: "post", path: "/users/register", description: "Register, required: email, user, password", example: { body: { email: "user@email.com", name: "user", password: "password" } } },
     { method: "post", path: "/users/login", description: "Login, required: valid email and password", example: { body: { email: "user@email.com", password: "password" } } },
