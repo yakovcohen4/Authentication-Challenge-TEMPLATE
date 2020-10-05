@@ -60,7 +60,7 @@ After these steps, you are good to go. **Good Luck!**
 
   - `GET` path: `/api/v1/users`, description: Get users DB (admin only), 
     - Request template: header {Authorization: "Bearer -access token-"}
-    - Server Responses: status 200, body: {USERS: [...[{email, name, password, isAdmin}]} | status 401 "Refresh Token Required" | status 403 "Invalid Refresh Token".
+    - Server Responses: status 200, body: {USERS: [...[{email, name, password, isAdmin}]} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
 
   - `OPTIONS` path: `"/"`, description: returns an array of all APIs and endpoints. (sends only the available options for the currnet logged user premissions)
     - Request template: `optional` header {Authorization: "Bearer -access token-"}
