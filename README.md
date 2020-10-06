@@ -43,44 +43,77 @@ After these steps, you are good to go. **Good Luck!**
 - **Do Not** try to change dependencies in `package.json`/`package.json.lock`, the initial libraries are the **only** libraries allowed to use in order to pass the challenge successfully, it will be **Tested**.
 
 ## Requirements
-- Access tokens should expire after 10 seconds.
-- Server must have an unknown endpoint handler (status 404 "unknown endpoint").
-- Server must contain the following variables: USERS [...{email, name, password, isAdmin},{}...], INFORMATION [...{name, info},{}...], 
+- Server must contain the following variables: 
+``` javascript 
+const USERS = [...{email, name, password, isAdmin}...], 
+const INFORMATION = [...{email, info}...]
+const REFRESHTOKENS = []
+```
 - Passwords cannot be stored as plain-text - only as hash+salt(10!)
 - USERS array on server must have an admin user with the props mentioned bellow: 
-{ email: "admin@email.com", name: "admin", password: "**hashed password**", isAdmin: true }. admin's password **must** be `Rc123456!`.
+```javascript
+{ email: "admin@email.com", name: "admin", password: "**hashed password**", isAdmin: true }.
+ ```
+admin's password **must** be `Rc123456!`.
 - Server must work with content/type: application/JSON 
-- **RESTFull API requirements:**
+- Access tokens should expire after 10 seconds.
+- Server must have an unknown endpoint handler (status 404 "unknown endpoint").
+
+- **REST-Full API requirements:**
   - `POST` path: `"/users/register"`, description: sign up to the server.
-    - request template: body: {email, user, password}
+    - request template: 
+    ```javascript 
+    body: {email, user, password}
+    ```
     - server responses:  status 201 "Register Success" | status 409 "user already exists".
-    - When a user registers, the INFORMATION variable is updated with new info {name: ${username}, info: "${username} info"} 
+    - When a user registers, the INFORMATION variable is updated with new info {email: ${email}, info: "${email} info"} 
   - `POST` path: `"/users/login"`, description: Login.
-    - request template: body: {email ,password}
-    - server responses: status 200, body {accessToken, refreshToken , userName, isAdmin} | status 404 "cannot find user" | status 403 "User or Password incorrect".
+    - request template: 
+    ```javascript
+     body: {email ,password} 
+     ```
+    - server responses: status 200, body {accessToken, refreshToken , email, name, isAdmin} | status 404 "cannot find user" | status 403 "User or Password incorrect".
 
   - `POST` path: `"/users/tokenValidate"`, description: Access Token Validation, Required: 
-    - request template header: {authorization: "Bearer -access token-"}
+    - request template 
+    ```javascript 
+    header: {Authorization: "Bearer -access token-"} 
+    ```
     - server responses: status 200, body: {valid: `true`} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
 
-  - `GET` path: `"/api/v1/information"`, description: Access user's information, Required: header: {authorization: "Bearer -access token-"}
-    - request template: header {authorization: "Bearer -access token-"}
+  - `GET` path: `"/api/v1/information"`, description: Access user's information, Required: header: {Authorization: "Bearer -access token-"}
+    - request template: 
+    ```javascript 
+    header {Authorization: "Bearer -access token-"}
+     ```
     - server responses: status 200, body: {name, info} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
     
   - `POST` path: `"/users/token"`, description: Renew access token, 
-    - request template: body: {token: -refresh token-}.
+    - request template: 
+    ```javascript 
+    body: {token: -refresh token-}. 
+    ```
     - server responses: status 200, body: {accessToken} | status 401 "Refresh Token Required" | status 403 "Invalid Refresh Token".
   
   - `POST` path: `"/users/logout"`, description: Logout Session. 
-    - Request template: body: {token: -refresh token-"}
+    - Request template: 
+    ```javascript 
+    body: {token: -refresh token-"} 
+    ```
     - server responses: status 200 "User Logged Out Successfully" | status 400 "Refresh Token Required" | status 400 "Invalid Refresh Token".
 
   - `GET` path: `/api/v1/users`, description: Get users DB (admin only), 
-    - Request template: header {authorization: "Bearer -access token-"}
+    - Request template: 
+    ```javascript 
+    header {Authorization: "Bearer -access token-"} 
+    ```
     - Server Responses: status 200, body: {USERS: [...[{email, name, password, isAdmin}]} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
 
   - `OPTIONS` path: `"/"`, description: returns an array of all APIs and endpoints. (sends only the available options for the currnet logged user premissions)
-    - Request template: `optional` header {authorization: "Bearer -access token-"}
+    - Request template: `optional` 
+    ```javascript 
+    header {Authorization: "Bearer -access token-"} 
+    ```
     - Server Response: status 200, header: {Allow: "OPTIONS, GET, POST"},
     body: returns an array of all the server's APIs:
       - client with no token gets only register and login APIs. 
@@ -88,16 +121,19 @@ After these steps, you are good to go. **Good Luck!**
       - authenticated user can access login, register, refresh token, information and logout APIs.
       - admin user can see all the server's APIs (including the get **api/v1/users**)
         - options array:
-        
+  ```javascript
         [
     { method: "post", path: "/users/register", description: "Register, Required: email, user, password", example: { body: { email: "user@email.com", name: "user", password: "password" } } },
     { method: "post", path: "/users/login", description: "Login, Required: valid email and password", example: { body: { email: "user@email.com", password: "password" } } },
     { method: "post", path: "/users/token", description: "Renew access token, Required: valid refresh token", example: { headers: { token: "\*Refresh Token\*" } } },
-    { method: "post", path: "/users/tokenValidate", description: "Access Token Validation, Required: valid access token", example: { headers: { authorization: "Bearer \*Access Token\*" } } },
-    { method: "get", path: "/api/v1/information", description: "Access user's information, Required: valid access token", example: { headers: { authorization: "Bearer \*Access Token\*" } } },
+    { method: "post", path: "/users/tokenValidate", description: "Access Token Validation, Required: valid access token", example: { headers: { Authorization: "Bearer \*Access Token\*" } } },
+    { method: "get", path: "/api/v1/information", description: "Access user's information, Required: valid access token", example: { headers: { Authorization: "Bearer \*Access Token\*" } } },
     { method: "post", path: "/users/logout", description: "Logout, Required: access token", example: { body: { token: "\*Refresh Token\*" } } },
     { method: "get", path: "api/v1/users", description: "Get users DB, Required: Valid access token of admin user", example: { headers: { authorization: "Bearer \*Access Token\*" } } }
   ]
+  ```
+
+
 ## How to run tests
 - Run all tests (tokenExpire.test takes 10s) - CLI command - npm run test.
 - Run single test suite -  CLI command - npm run test -- SomeTestFileToRun.
