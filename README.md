@@ -66,7 +66,7 @@ admin's password **must** be `Rc123456!`.
     body: {email, user, password}
     ```
     - server responses:  status 201 "Register Success" | status 409 "user already exists".
-    - When a user registers, the INFORMATION variable is updated with new info {email: ${email}, info: "${email} info"} 
+    - When a user registers, the INFORMATION variable is updated with new info {email: ${email}, info: "${name} info"} 
   - `POST` path: `"/users/login"`, description: Login.
     - request template: 
     ```javascript
