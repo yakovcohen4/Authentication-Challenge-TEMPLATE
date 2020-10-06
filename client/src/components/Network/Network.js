@@ -21,12 +21,18 @@ function Network(endPoint, { body, ...customConfig } = {}) {
     // console.log(`Sending ${config.method} to ${url} with data:`, body);
 
     return fetch(url, config).then(async (response, reject) => {
-        const data = await response.json();
+        let data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            data = await response.json()
+        } else {
+            data = await response.text()
+        }
         if (response.ok) {
             console.log(`Got response ${response.status}`, data);
             return data
         } else {
-            console.error(`${response.status} : '${data.message}'`);
+            console.error(`${response.status} : '${data}'`);
             throw data
         }
     });
