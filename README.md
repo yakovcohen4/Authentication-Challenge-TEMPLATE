@@ -86,7 +86,7 @@ admin's password **must** be `Rc123456!`.
     ```javascript 
     header {Authorization: "Bearer -access token-"}
      ```
-    - server responses: status 200, body: {name, info} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
+    - server responses: status 200, body: {email, info} | status 401 "Access Token Required" | status 403 "Invalid Access Token".
     
   - `POST` path: `"/users/token"`, description: Renew access token, 
     - request template: 
@@ -123,7 +123,7 @@ admin's password **must** be `Rc123456!`.
         - options array:
   ```javascript
         [
-    { method: "post", path: "/users/register", description: "Register, Required: email, user, password", example: { body: { email: "user@email.com", name: "user", password: "password" } } },
+    { method: "post", path: "/users/register", description: "Register, Required: email, name, password", example: { body: { email: "user@email.com", name: "user", password: "password" } } },
     { method: "post", path: "/users/login", description: "Login, Required: valid email and password", example: { body: { email: "user@email.com", password: "password" } } },
     { method: "post", path: "/users/token", description: "Renew access token, Required: valid refresh token", example: { headers: { token: "\*Refresh Token\*" } } },
     { method: "post", path: "/users/tokenValidate", description: "Access Token Validation, Required: valid access token", example: { headers: { Authorization: "Bearer \*Access Token\*" } } },
