@@ -3,9 +3,6 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-// require('dotenv').config();
-
-// port = app.use();
 
 const apiRoute = require('./routes/apiRoute');
 
