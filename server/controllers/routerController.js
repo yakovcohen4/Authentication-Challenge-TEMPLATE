@@ -76,8 +76,21 @@ exports.information = (req, res, next) => {
 };
 
 exports.token = (req, res, next) => {
-  res.send('token');
-  //   res.send('cannot find user');
+  const refreshToken = req.body.token;
+  if (refreshToken === null) {
+    return res.status(401)('Refresh Token Required');
+  }
+  if (!REFRESHTOKENS.includes(refreshToken)) {
+    return res.status(403)('Invalid Refresh Token');
+  }
+  jwt.verify(refreshToken, REFRESH_TOKENS, (err, user) => {
+    if (err) return res.status(403)('Invalid Refresh Token');
+    const accessToken = jwt.sign({ email: user.email }, ACCESS_TOKEN, {
+      expiresIn: '5s',
+    });
+    return res.status(200).send({ accessToken: accessToken });
+    next();
+  });
 };
 
 exports.logout = (req, res, next) => {
