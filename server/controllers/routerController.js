@@ -29,12 +29,12 @@ exports.login = async (req, res, next) => {
   const user = req.body;
   const body = {};
   let flag = 0;
-  console.log(user);
+
   for (let user1 of USERS) {
-    console.log(user1);
     let ans = await bcrypt.compare(user.password, user1.password);
-    // console.log(user.email === user1.email && user.password === user1.password);
+
     if (user.email === user1.email && ans) {
+      user.isAdmin = user1.isAdmin;
       body.email = user1.email;
       body.name = user1.name;
       body.isAdmin = user1.isAdmin;
@@ -46,7 +46,7 @@ exports.login = async (req, res, next) => {
       body.refreshToken = refreshToken;
       REFRESHTOKENS.push(refreshToken);
       return res.status(200).send(body);
-    } else if (user.email === user1.email || user.password === user1.password) {
+    } else if (user.email === user1.email || ans) {
       flag = 1;
     }
   }

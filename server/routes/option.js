@@ -1,8 +1,8 @@
 const express = require('express');
-const { option } = require('../controllers/optionsController');
+const { optionRouter } = require('../controllers/optionsController');
 
-const option = express.Router();
+const router = express.Router();
 
-option.options('/', option);
+router.options('/', optionRouter);
 
-module.exports = option;
+module.exports = router;
