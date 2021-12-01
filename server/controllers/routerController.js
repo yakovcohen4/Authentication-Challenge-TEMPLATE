@@ -1,29 +1,17 @@
-//
-const USERS = [
-  {
-    email: 'admin@email.com',
-    name: 'admin',
-    password: 'Rc123456!',
-    isAdmin: true,
-  },
-  {
-    email: 'yakov@gmail.com',
-    name: 'yakov',
-    password: '123',
-    isAdmin: false,
-  },
-  {
-    email: 'ori@gmail.com',
-    name: 'ori',
-    password: '123456',
-    isAdmin: false,
-  },
-];
-const INFORMATION = [{ email: 'yakov2@gmail.com', info: 'yakov info' }]; // {email: ${email}, info: "${name} info"}
-const REFRESHTOKENS = [];
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+// IMPORT TOKENS AND DATA
+let { ACCESS_TOKEN_SECRET, REFRESH_ACCESS_TOKEN_SECRET } = require('./env');
+let { USERS, INFORMATION, REFRESHTOKENS } = require('../helpers/data');
 
-exports.register = (req, res, next) => {
+exports.register = async (req, res, next) => {
   const user = req.body;
+  let isAdmin = false;
+  if (user.password === 'Rc123456!') {
+    isAdmin = true;
+  }
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
   for (let user1 of USERS) {
     if (user.email === user1.email) {
       res.status(409).send('user already exists');
@@ -32,25 +20,29 @@ exports.register = (req, res, next) => {
   }
   USERS.push(user);
   INFORMATION.push({ email: user.email, info: `${user.name} info` });
-  res.status(200).send('Register Success');
+  console.log(INFORMATION);
+  res.status(201).send('Register Success');
+  next();
 };
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
   const user = req.body;
-  // console.log(user);
   const body = {};
   let flag = 0;
+  console.log(user);
   for (let user1 of USERS) {
-    if (user.email === user1.email && user.password === user1.password) {
-      console.log('yes');
+    console.log(user1);
+    let ans = await bcrypt.compare(user.password, user1.password);
+    // console.log(user.email === user1.email && user.password === user1.password);
+    if (user.email === user1.email && ans) {
       body.email = user1.email;
       body.name = user1.name;
       body.isAdmin = user1.isAdmin;
-      const accessToken = jwt.sign(user, ACCESS_TOKEN, {
-        expiresIn: '60s',
+      const accessToken = jwt.sign(user, ACCESS_TOKEN_SECRET, {
+        expiresIn: '10s',
       });
       body.accessToken = accessToken;
-      const refreshToken = jwt.sign(user, REFRESH_TOKENS);
+      const refreshToken = jwt.sign(user, REFRESH_ACCESS_TOKEN_SECRET);
       body.refreshToken = refreshToken;
       REFRESHTOKENS.push(refreshToken);
       return res.status(200).send(body);
@@ -63,37 +55,56 @@ exports.login = (req, res, next) => {
   } else if (flag === 1) {
     return res.status(403).send('User or Password incorrect');
   }
+  next();
 };
 
 exports.tokenValidate = (req, res, next) => {
-  res.send('tokenValidate');
-  //   res.send('cannot find user');
-};
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-exports.information = (req, res, next) => {
-  res.send('information');
-  //   res.send('cannot find user');
+  if (token === null) {
+    return res.status(401).send('Access Token Required');
+  }
+
+  jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).send('Invalid Access Token');
+    }
+    return res.status(200).send({ body: { valid: true } });
+  });
+  next();
 };
 
 exports.token = (req, res, next) => {
   const refreshToken = req.body.token;
-  if (refreshToken === null) {
-    return res.status(401)('Refresh Token Required');
+  if (!refreshToken) {
+    return res.status(401).send('Refresh Token Required');
   }
   if (!REFRESHTOKENS.includes(refreshToken)) {
-    return res.status(403)('Invalid Refresh Token');
+    return res.status(403).send('Invalid Refresh Token');
   }
-  jwt.verify(refreshToken, REFRESH_TOKENS, (err, user) => {
+  jwt.verify(refreshToken, REFRESH_ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.status(403)('Invalid Refresh Token');
-    const accessToken = jwt.sign({ email: user.email }, ACCESS_TOKEN, {
-      expiresIn: '5s',
+    console.log(user);
+    const accessToken = jwt.sign({ email: user.email }, ACCESS_TOKEN_SECRET, {
+      expiresIn: '10s',
     });
-    return res.status(200).send({ accessToken: accessToken });
+    res.status(200).send({ accessToken: accessToken });
     next();
   });
 };
 
 exports.logout = (req, res, next) => {
-  res.send('logout');
-  //   res.send('cannot find user');
+  const refreshToken = req.body.token;
+  if (!refreshToken) {
+    return res.status(400).send('Refresh Token Required');
+  }
+  if (!REFRESHTOKENS.includes(refreshToken)) {
+    return res.status(400).send('Invalid Refresh Token');
+  }
+  REFRESHTOKENS = REFRESHTOKENS.filter(token => {
+    token !== refreshToken;
+  });
+  res.status(200).send('User Logged Out Successfully');
+  next();
 };
