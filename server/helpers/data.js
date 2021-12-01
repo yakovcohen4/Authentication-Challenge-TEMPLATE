@@ -8,13 +8,13 @@ exports.USERS = [
   {
     email: 'yakov@gmail.com',
     name: 'yakov',
-    password: '123',
+    password: '$2b$10$Eu7iKa0qbJDkkUE8KAC8VeKxelhItsS1UKGY9WkxRtlNPR0I7UyQe',
     isAdmin: false,
   },
   {
     email: 'ori@gmail.com',
     name: 'ori',
-    password: '123456',
+    password: '$2b$10$gMzBENcPw2MUWmRsnbG5X.BHweiY8dktdms4jAOrshGX/xIEBhEAa',
     isAdmin: false,
   },
 ];
